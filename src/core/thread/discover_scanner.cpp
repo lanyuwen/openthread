@@ -157,9 +157,7 @@ exit:
     return error;
 }
 
-otError DiscoverScanner::SetJoinerAdvertisement(uint32_t        aOui,
-                                                const uint8_t * aAdvData,
-                                                uint8_t         aAdvDataLength)
+otError DiscoverScanner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength)
 {
     otError error = OT_ERROR_NONE;
 

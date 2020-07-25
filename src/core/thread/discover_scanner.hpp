@@ -144,9 +144,7 @@ public:
      * @retval OT_ERROR_INVALID_ARGS    Invalid AdvData.
      *
      */
-    otError SetJoinerAdvertisement(uint32_t        aOui,
-                                   const uint8_t * aAdvData,
-                                   uint8_t         aAdvDataLength);
+    otError SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength);
 
 private:
     enum State
