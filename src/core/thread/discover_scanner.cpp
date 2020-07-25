@@ -55,6 +55,8 @@ DiscoverScanner::DiscoverScanner(Instance &aInstance)
     , mScanChannel(0)
     , mEnableFiltering(false)
     , mShouldRestorePanId(false)
+    , mAdvDataLength(0)
+    , mHasJoinerAdvertisement(false)
 {
 }
 
@@ -66,10 +68,11 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
                                   Handler                 aCallback,
                                   void *                  aContext)
 {
-    otError                      error   = OT_ERROR_NONE;
-    Message *                    message = nullptr;
-    Ip6::Address                 destination;
-    MeshCoP::DiscoveryRequestTlv discoveryRequest;
+    otError                         error   = OT_ERROR_NONE;
+    Message *                       message = nullptr;
+    Ip6::Address                    destination;
+    MeshCoP::DiscoveryRequestTlv    discoveryRequest;
+    MeshCoP::JoinerAdvertisementTlv joinerAdvertisement;
 
     VerifyOrExit(mState == kStateIdle, error = OT_ERROR_BUSY);
 
@@ -113,6 +116,16 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
 
     SuccessOrExit(error = Tlv::AppendTlv(*message, Tlv::kDiscovery, &discoveryRequest, sizeof(discoveryRequest)));
 
+    if (mHasJoinerAdvertisement)
+    {
+        // Append MLE Discovery TLV with sub-TLV (MeshCoP Joiner Advertisement).
+        joinerAdvertisement.Init();
+        joinerAdvertisement.SetOui(mOui);
+        joinerAdvertisement.SetAdvData(mAdvData, mAdvDataLength);
+
+        SuccessOrExit(error = joinerAdvertisement.AppendTo(*message));
+    }
+
     destination.SetToLinkLocalAllRoutersMulticast();
 
     SuccessOrExit(error = Get<Mle>().SendMessage(*message, destination));
@@ -140,6 +153,25 @@ exit:
     {
         message->Free();
     }
+
+    return error;
+}
+
+otError DiscoverScanner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t * aAdvData, uint8_t aAdvDataLength)
+{
+    otError error = OT_ERROR_NONE;
+
+    if ((aAdvData == nullptr) || (aAdvDataLength == 0) || (aAdvDataLength > kMaxLength))
+    {
+        error = OT_ERROR_INVALID_ARGS;
+        return error;
+    }
+
+    memcpy(mAdvData, aAdvData, aAdvDataLength);
+
+    mOui                    = aOui;
+    mAdvDataLength          = aAdvDataLength;
+    mHasJoinerAdvertisement = true;
 
     return error;
 }
