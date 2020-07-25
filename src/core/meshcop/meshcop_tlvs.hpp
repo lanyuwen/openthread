@@ -2436,14 +2436,13 @@ public:
      */
     void SetAdvData(const uint8_t *aAdvData, uint8_t aAdvDataLength)
     {
-        uint8_t len = (((aAdvData == nullptr) || (aAdvDataLength > kMaxLength)) ? 0 : aAdvDataLength);
-
-        SetLength(len + sizeof(mOui));
+        uint16_t len = (((aAdvData == nullptr) || (aAdvDataLength > kMaxLength)) ? 0 : aAdvDataLength);
 
         if (len > 0)
         {
             memcpy(mAdvData, aAdvData, len);
             mAdvDataLength = aAdvDataLength;
+            SetLength(len + sizeof(mOui));
         }
     }
 

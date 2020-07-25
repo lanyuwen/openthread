@@ -161,18 +161,15 @@ otError DiscoverScanner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aA
 {
     otError error = OT_ERROR_NONE;
 
-    if ((aAdvData == nullptr) || (aAdvDataLength == 0) || (aAdvDataLength > kMaxLength))
-    {
-        error = OT_ERROR_INVALID_ARGS;
-        return error;
-    }
-
-    memcpy(mAdvData, aAdvData, aAdvDataLength);
+    VerifyOrExit((aAdvData != nullptr) && (aAdvDataLength != 0) && (aAdvDataLength <= kMaxLength),
+                 error = OT_ERROR_INVALID_ARGS);
 
     mOui                    = aOui;
+    mAdvData                = aAdvData;
     mAdvDataLength          = aAdvDataLength;
     mHasJoinerAdvertisement = true;
 
+exit:
     return error;
 }
 

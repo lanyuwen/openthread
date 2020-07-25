@@ -181,7 +181,7 @@ private:
     bool             mEnableFiltering : 1;
     bool             mShouldRestorePanId : 1;
     uint32_t         mOui;
-    uint8_t          mAdvData[kMaxLength];
+    const uint8_t *  mAdvData;
     uint8_t          mAdvDataLength;
     bool             mHasJoinerAdvertisement : 1;
 };

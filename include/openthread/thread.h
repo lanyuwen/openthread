@@ -271,8 +271,8 @@ bool otThreadIsDiscoverInProgress(otInstance *aInstance);
  * @param[in]  aOui      The Vendor OUI value which will be included in the Joiner Advertisement.
  * @param[in]  aAdvData  The AdvData which will be included in the Joiner Advertisement.
  *
- * @retval OT_ERROR_NONE       Successfully set Joiner Advertisement.
- * @retval OT_ERROR_INVALID    Invalid AdvData.
+ * @retval OT_ERROR_NONE         Successfully set Joiner Advertisement.
+ * @retval OT_ERROR_INVALID_ARGS Invalid AdvData.
  *
  */
 otError otThreadSetJoinerAdvertisement(otInstance *   aInstance,
