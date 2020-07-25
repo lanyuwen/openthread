@@ -265,6 +265,22 @@ otError otThreadDiscover(otInstance *             aInstance,
 bool otThreadIsDiscoverInProgress(otInstance *aInstance);
 
 /**
+ * Set the Thread Joiner Advertisement when discovering Thread network.
+ *
+ * @param[in]  aInstance A pointer to an OpenThread instance.
+ * @param[in]  aOui      The Vendor OUI value which will be included in the Joiner Advertisement.
+ * @param[in]  aAdvData  The AdvData which will be included in the Joiner Advertisement.
+ *
+ * @retval OT_ERROR_NONE         Successfully set Joiner Advertisement.
+ * @retval OT_ERROR_INVALID_ARGS Invalid AdvData.
+ *
+ */
+otError otThreadSetJoinerAdvertisement(otInstance *   aInstance,
+                                       uint32_t       aOui,
+                                       const uint8_t *aAdvData,
+                                       uint8_t        aAdvDataLength);
+
+/**
  * Get the Thread Child Timeout used when operating in the Child role.
  *
  * @param[in]  aInstance A pointer to an OpenThread instance.
