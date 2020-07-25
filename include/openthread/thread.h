@@ -275,7 +275,10 @@ bool otThreadIsDiscoverInProgress(otInstance *aInstance);
  * @retval OT_ERROR_INVALID    Invalid AdvData.
  *
  */
-otError otThreadSetJoinerAdvertisement(otInstance *aInstance, uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength);
+otError otThreadSetJoinerAdvertisement(otInstance *     aInstance,
+                                       uint32_t         aOui,
+                                       const uint8_t *  aAdvData,
+                                       uint8_t          aAdvDataLength);
 
 /**
  * Get the Thread Child Timeout used when operating in the Child role.

@@ -2418,10 +2418,7 @@ public:
      * @returns The AdvData length.
      *
      */
-    uint8_t GetAdvDataLength(void) const
-    {
-        return mAdvDataLength;
-    }
+    uint8_t GetAdvDataLength(void) const { return mAdvDataLength; }
 
     /**
      * This method returns the Adv Data value.
