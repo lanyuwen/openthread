@@ -126,7 +126,8 @@ public:
                      bool                    aEnableFiltering,
                      const FilterIndexes *   aFilterIndexes,
                      uint32_t                aOui,
-                     const char *            aAdvData,
+                     const uint8_t *         aAdvData,
+                     uint8_t                 aAdvDataLength,
                      Handler                 aHandler,
                      void *                  aContext);
 

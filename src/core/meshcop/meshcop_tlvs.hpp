@@ -2415,13 +2415,10 @@ public:
     /**
      * This method returns the Adv Data length.
      *
-     * @returns The Adv Data length.
+     * @returns The AdvData length.
      *
      */
-    uint8_t GetAdvDataLength(void) const
-    {
-        return GetLength() <= sizeof(mAdvData) ? GetLength() : sizeof(mAdvData);
-    }
+    uint8_t GetAdvDataLength(void) const { return mAdvDataLength; }
 
     /**
      * This method returns the Adv Data value.
@@ -2429,7 +2426,7 @@ public:
      * @returns The Adv Data value.
      *
      */
-    const char *GetAdvData(void) const { return mAdvData; }
+    const uint8_t *GetAdvData(void) const { return mAdvData; }
 
     /**
      * This method sets the Adv Data value.
@@ -2437,15 +2434,16 @@ public:
      * @param[in]  aAdvData  A pointer to the Adv Data value.
      *
      */
-    void SetAdvData(const char *aAdvData)
+    void SetAdvData(const uint8_t *aAdvData, uint8_t aAdvDataLength)
     {
-        uint16_t len = (aAdvData == nullptr) ? 0 : StringLength(aAdvData, sizeof(mAdvData));
+        uint8_t len = (((aAdvData == nullptr) || (aAdvDataLength > kMaxLength)) ? 0 : aAdvDataLength);
 
-        SetLength(static_cast<uint8_t>(len));
+        SetLength(len + sizeof(mOui));
 
         if (len > 0)
         {
             memcpy(mAdvData, aAdvData, len);
+            mAdvDataLength = aAdvDataLength;
         }
     }
 
@@ -2456,7 +2454,8 @@ private:
     };
 
     uint8_t mOui[3];
-    char mAdvData[kMaxLength];
+    uint8_t mAdvData[kMaxLength];
+    uint8_t mAdvDataLength;
 } OT_TOOL_PACKED_END;
 
 } // namespace MeshCoP

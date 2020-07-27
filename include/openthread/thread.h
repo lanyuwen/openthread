@@ -256,7 +256,8 @@ otError otThreadDiscover(otInstance *             aInstance,
                          bool                     aJoiner,
                          bool                     aEnableEui64Filtering,
                          uint32_t                 aOui,
-                         const char *             aAdvData,
+                         const uint8_t *          aAdvData,
+                         uint8_t                  aAdvDataLength,
                          otHandleActiveScanResult aCallback,
                          void *                   aCallbackContext);
 

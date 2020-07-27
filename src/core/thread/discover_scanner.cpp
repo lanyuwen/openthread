@@ -64,7 +64,8 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
                                   bool                    aEnableFiltering,
                                   const FilterIndexes *   aFilterIndexes,
                                   uint32_t                aOui,
-                                  const char *            aAdvData,
+                                  const uint8_t *         aAdvData,
+                                  uint8_t                 aAdvDataLength,
                                   Handler                 aCallback,
                                   void *                  aContext)
 {
@@ -119,7 +120,7 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
     // Append MLE Discovery TLV with sub-TLV (MeshCoP Joiner Advertisement).
     joinerAdvertisement.Init();
     joinerAdvertisement.SetOui(aOui);
-    joinerAdvertisement.SetAdvData(aAdvData);
+    joinerAdvertisement.SetAdvData(aAdvData, aAdvDataLength);
 
     SuccessOrExit(error = joinerAdvertisement.AppendTo(*message));
 

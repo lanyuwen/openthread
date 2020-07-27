@@ -538,7 +538,8 @@ protected:
     bool            mDiscoveryScanEnableFiltering;
     uint16_t        mDiscoveryScanPanId;
     uint32_t        mOui;
-    const char *    mAdvData;
+    const uint8_t * mAdvData;
+    uint8_t         mAdvDataLength;
 
     Tasklet         mUpdateChangedPropsTask;
     uint32_t        mThreadChangedFlags;

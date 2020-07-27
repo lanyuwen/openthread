@@ -173,9 +173,10 @@ otError Joiner::Start(const char *     aPskd,
         SteeringData::CalculateHashBitIndexes(mId, filterIndexes);
     }
 
-    SuccessOrExit(error = Get<Mle::DiscoverScanner>().Discover(Mac::ChannelMask(0), Get<Mac::Mac>().GetPanId(),
-                                                               /* aJoiner */ true, /* aEnableFiltering */ true,
-                                                               &filterIndexes, 0, nullptr, HandleDiscoverResult, this));
+    SuccessOrExit(error =
+                      Get<Mle::DiscoverScanner>().Discover(Mac::ChannelMask(0), Get<Mac::Mac>().GetPanId(),
+                                                           /* aJoiner */ true, /* aEnableFiltering */ true,
+                                                           &filterIndexes, 0, nullptr, 0, HandleDiscoverResult, this));
     mCallback = aCallback;
     mContext  = aContext;
 
