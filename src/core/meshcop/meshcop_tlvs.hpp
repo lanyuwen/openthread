@@ -2436,7 +2436,7 @@ public:
      */
     void SetAdvData(const uint8_t *aAdvData, uint8_t aAdvDataLength)
     {
-        uint16_t len = (((aAdvData == nullptr) || (aAdvDataLength > kMaxLength)) ? 0 : aAdvDataLength);
+        uint8_t len = (((aAdvData == nullptr) || (aAdvDataLength > kMaxLength)) ? 0 : aAdvDataLength);
 
         if (len > 0)
         {
