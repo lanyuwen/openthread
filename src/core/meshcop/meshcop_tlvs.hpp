@@ -2385,7 +2385,7 @@ public:
      * @retval FALSE  If the TLV does not appear to be well-formed.
      *
      */
-    bool IsValid(void) const { return GetLength() >= sizeof(mOui) && GetLength() <= sizeof(mOui) + sizeof(mAdvData);}
+    bool IsValid(void) const { return GetLength() >= sizeof(mOui) && GetLength() <= sizeof(mOui) + sizeof(mAdvData); }
 
     /**
      * This method returns the Vendor OUI value.
@@ -2436,7 +2436,8 @@ public:
      */
     void SetAdvData(const uint8_t *aAdvData, uint8_t aAdvDataLength)
     {
-        OT_ASSERT((aAdvData == nullptr && aAdvDataLength == 0) || (aAdvData != nullptr && (aAdvDataLength > 0 && aAdvDataLength <= kMaxLength) ));
+        OT_ASSERT((aAdvData == nullptr && aAdvDataLength == 0) ||
+                  (aAdvData != nullptr && (aAdvDataLength > 0 && aAdvDataLength <= kMaxLength)));
 
         SetLength(aAdvDataLength + sizeof(mOui));
         memcpy(mAdvData, aAdvData, aAdvDataLength);

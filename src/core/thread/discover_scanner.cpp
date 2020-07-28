@@ -164,8 +164,8 @@ otError DiscoverScanner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aA
     VerifyOrExit((aAdvData != nullptr) && (aAdvDataLength != 0) && (aAdvDataLength <= kMaxLength),
                  error = OT_ERROR_INVALID_ARGS);
 
-    mOui                    = aOui;
-    mAdvDataLength          = aAdvDataLength;
+    mOui           = aOui;
+    mAdvDataLength = aAdvDataLength;
 
     memcpy(mAdvData, aAdvData, aAdvDataLength);
 
