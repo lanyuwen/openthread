@@ -134,29 +134,12 @@ public:
      */
     bool IsInProgress(void) const { return (mState != kStateIdle); }
 
-    /**
-     * This method sets Joiner Advertisement.
-     *
-     * @param[in]  aOui        The Vendor OUI for Joiner Advertisement
-     * @param[in]  aAdvData    A pointer to AdvData for Joiner Advertisement
-     *
-     * @retval OT_ERROR_NONE            Successfully set Joiner Advertisement.
-     * @retval OT_ERROR_INVALID_ARGS    Invalid AdvData.
-     *
-     */
-    otError SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength);
-
 private:
     enum State
     {
         kStateIdle,
         kStateScanning,
         kStateScanDone,
-    };
-
-    enum
-    {
-        kMaxLength = 64,
     };
 
     // Methods used by `MeshForwarder`
@@ -180,10 +163,6 @@ private:
     uint8_t          mScanChannel;
     bool             mEnableFiltering : 1;
     bool             mShouldRestorePanId : 1;
-    uint32_t         mOui;
-    uint8_t          mAdvData[kMaxLength];
-    uint8_t          mAdvDataLength;
-    bool             mHasJoinerAdvertisement : 1;
 };
 
 } // namespace Mle

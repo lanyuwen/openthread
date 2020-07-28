@@ -48,6 +48,7 @@
 #include "meshcop/dtls.hpp"
 #include "meshcop/meshcop.hpp"
 #include "meshcop/meshcop_tlvs.hpp"
+#include "thread/discover_scanner.hpp"
 
 namespace ot {
 
@@ -55,6 +56,8 @@ namespace MeshCoP {
 
 class Joiner : public InstanceLocator
 {
+    friend class Mle::DiscoverScanner;
+
 public:
     /**
      * This constructor initializes the Joiner object.
@@ -149,12 +152,26 @@ public:
      */
     otError ClearDiscerner(void);
 
+    /**
+     * This method sets Joiner Advertisement.
+     *
+     * @param[in]  aOui             The Vendor OUI for Joiner Advertisement
+     * @param[in]  aAdvData         A pointer to AdvData for Joiner Advertisement
+     * @param[in]  aAdvDataLength   Length of AdvData
+     *
+     * @retval OT_ERROR_NONE            Successfully set Joiner Advertisement.
+     * @retval OT_ERROR_INVALID_ARGS    Invalid AdvData.
+     *
+     */
+    otError SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength);
+
 private:
     enum
     {
         kJoinerUdpPort         = OPENTHREAD_CONFIG_JOINER_UDP_PORT,
         kConfigExtAddressDelay = 100,  ///< [milliseconds]
         kReponseTimeout        = 4000, ///< Maximum wait time to receive response [milliseconds].
+        kMaxLength = 64,
     };
 
     struct JoinerRouter
@@ -222,6 +239,12 @@ private:
 
     TimerMilli     mTimer;
     Coap::Resource mJoinerEntrust;
+
+    //used by "DiscoverScanner"
+    uint32_t         mOui;
+    uint8_t          mAdvData[kMaxLength];
+    uint8_t          mAdvDataLength;
+    bool             mHasJoinerAdvertisement : 1;
 };
 
 } // namespace MeshCoP

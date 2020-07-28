@@ -190,6 +190,28 @@ otError otJoinerSetDiscerner(otInstance *aInstance, otJoinerDiscerner *aDiscerne
 const otJoinerDiscerner *otJoinerGetDiscerner(otInstance *aInstance);
 
 /**
+ * This method sets the Thread Joiner Advertisement when discovering Thread network.
+ *
+ * Thread Joiner Advertisement is used to allow Joiners advertise its own application-specific information 
+ * (such as Vendor ID, Product ID, Discriminator, etc.) unsolicitedly via a newly-proposed Joiner Advertisement TLV,
+ * and to make this information available to Commissioners or Commissioner Candidates without human interactions.
+ *
+ * @param[in]  aInstance        A pointer to an OpenThread instance.
+ * @param[in]  aOui             The Vendor OUI value which will be included in the Joiner Advertisement. Only the least
+ *                              significant 3 bytes will be used while the most significant byte will be ignored.
+ * @param[in]  aAdvData         The AdvData which will be included in the Joiner Advertisement.
+ * @param[in]  aAdvDataLength   Length of AdvData
+ *
+ * @retval OT_ERROR_NONE         Successfully set Joiner Advertisement.
+ * @retval OT_ERROR_INVALID_ARGS Invalid AdvData.
+ *
+ */
+otError otJoinerSetAdvertisement(otInstance *   aInstance,
+                                 uint32_t       aOui,
+                                 const uint8_t *aAdvData,
+                                 uint8_t        aAdvDataLength);
+
+/**
  * @}
  *
  */

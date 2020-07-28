@@ -55,8 +55,6 @@ DiscoverScanner::DiscoverScanner(Instance &aInstance)
     , mScanChannel(0)
     , mEnableFiltering(false)
     , mShouldRestorePanId(false)
-    , mAdvDataLength(0)
-    , mHasJoinerAdvertisement(false)
 {
 }
 
@@ -70,6 +68,7 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
 {
     otError                         error   = OT_ERROR_NONE;
     Message *                       message = nullptr;
+    MeshCoP::Joiner                 joiner  = Get<MeshCoP::Joiner>(); 
     Ip6::Address                    destination;
     MeshCoP::DiscoveryRequestTlv    discoveryRequest;
     MeshCoP::JoinerAdvertisementTlv joinerAdvertisement;
@@ -116,12 +115,12 @@ otError DiscoverScanner::Discover(const Mac::ChannelMask &aScanChannels,
 
     SuccessOrExit(error = Tlv::AppendTlv(*message, Tlv::kDiscovery, &discoveryRequest, sizeof(discoveryRequest)));
 
-    if (mHasJoinerAdvertisement)
+    if (joiner.mHasJoinerAdvertisement)
     {
         // Append MLE Discovery TLV with sub-TLV (MeshCoP Joiner Advertisement).
         joinerAdvertisement.Init();
-        joinerAdvertisement.SetOui(mOui);
-        joinerAdvertisement.SetAdvData(mAdvData, mAdvDataLength);
+        joinerAdvertisement.SetOui(joiner.mOui);
+        joinerAdvertisement.SetAdvData(joiner.mAdvData, joiner.mAdvDataLength);
 
         SuccessOrExit(error = joinerAdvertisement.AppendTo(*message));
     }
@@ -154,24 +153,6 @@ exit:
         message->Free();
     }
 
-    return error;
-}
-
-otError DiscoverScanner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength)
-{
-    otError error = OT_ERROR_NONE;
-
-    VerifyOrExit((aAdvData != nullptr) && (aAdvDataLength != 0) && (aAdvDataLength <= kMaxLength),
-                 error = OT_ERROR_INVALID_ARGS);
-
-    mOui           = aOui;
-    mAdvDataLength = aAdvDataLength;
-
-    memcpy(mAdvData, aAdvData, aAdvDataLength);
-
-    mHasJoinerAdvertisement = true;
-
-exit:
     return error;
 }
 

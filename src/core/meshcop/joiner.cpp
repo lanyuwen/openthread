@@ -66,6 +66,8 @@ Joiner::Joiner(Instance &aInstance)
     , mFinalizeMessage(nullptr)
     , mTimer(aInstance, Joiner::HandleTimer, this)
     , mJoinerEntrust(OT_URI_PATH_JOINER_ENTRUST, &Joiner::HandleJoinerEntrust, this)
+    , mAdvDataLength(0)
+    , mHasJoinerAdvertisement(false)
 {
     SetIdFromIeeeEui64();
     mDiscerner.Clear();
@@ -713,6 +715,24 @@ exit:
     return;
 }
 #endif
+
+otError Joiner::SetJoinerAdvertisement(uint32_t aOui, const uint8_t *aAdvData, uint8_t aAdvDataLength)
+{
+    otError error = OT_ERROR_NONE;
+
+    VerifyOrExit((aAdvData != nullptr) && (aAdvDataLength != 0) && (aAdvDataLength <= kMaxLength),
+                 error = OT_ERROR_INVALID_ARGS);
+
+    mOui           = aOui;
+    mAdvDataLength = aAdvDataLength;
+
+    memcpy(mAdvData, aAdvData, aAdvDataLength);
+
+    mHasJoinerAdvertisement = true;
+
+exit:
+    return error;
+}
 
 // LCOV_EXCL_STOP
 

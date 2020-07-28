@@ -102,4 +102,14 @@ const otJoinerDiscerner *otJoinerGetDiscerner(otInstance *aInstance)
     return instance.Get<MeshCoP::Joiner>().GetDiscerner();
 }
 
+otError otJoinerSetAdvertisement(otInstance *   aInstance,
+                                       uint32_t       aOui,
+                                       const uint8_t *aAdvData,
+                                       uint8_t        aAdvDataLength)
+{
+    Instance &instance = *static_cast<Instance *>(aInstance);
+
+    return instance.Get<MeshCoP::Joiner>().SetJoinerAdvertisement(aOui, aAdvData, aAdvDataLength);
+}
+
 #endif // OPENTHREAD_CONFIG_JOINER_ENABLE
